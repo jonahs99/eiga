@@ -1,75 +1,79 @@
 <template>
   <div class="map">
-    <h1>{{ room.name }}</h1>
+    <h1 class="title">{{ room.name }}</h1>
     <div class="map-container">
-      <div class="checkpoint-container" v-for="checkpoint in room.checkpoints"
-        v-bind:key="checkpoint.name">
-        <div class="checkpoint-path"></div>
-        <div class="checkpoint-icon">
-          <div class="checkpoint-title">{{ checkpoint.name }}</div>
-        </div>
-      </div>
+      <check-point
+        v-for="checkpoint in checkpoints"
+        v-bind:key="checkpoint.name"
+        v-bind:checkpoint="checkpoint"
+      ></check-point>
+
+      <div class="add-checkpoint" v-on:click="addCheckpoint">+</div>
     </div>
   </div>
 </template>
 
 <script>
-import { db } from '../main'
+import firebase from "firebase";
+import { db } from "../main";
+
+import CheckPoint from "./CheckPoint.vue";
+
 export default {
-  name: 'MapApp',
-  data () {
+  name: "MapApp",
+  components: {
+    CheckPoint
+  },
+  props: ["docId"],
+  data() {
     return {
-      room: null
+      room: null,
+      checkpoints: [],
+
+      roomDoc: db.collection("rooms").doc(this.docId),
+      checkpointsCollection: db.collection("rooms").doc(this.docId).collection("checkpoints")
     }
   },
-  firestore () {
+  firestore() {
     return {
-      room: db.collection('rooms').doc('EuPzhKFzieeYna9UAWmc')
+      room: this.roomDoc,
+      checkpoints: this.checkpointsCollection
+    };
+  },
+  methods: {
+    addCheckpoint() {
+      this.roomDoc.update({
+        checkpoints: firebase.firestore.FieldValue.arrayUnion({
+          title: ""
+        })
+      });
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.title {
+  position: absolute;
+  text-align: left;
+  margin-left: 40px;
+  margin-top: 40px;
 
-.map-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.checkpoint-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.checkpoint-path {
-  width: 20px;
-  height: 100px;
-  background-color: #e53b3b;
-
-  z-index: 0;
-}
-
-.checkpoint-icon {
-  margin-top: -10px;
-  margin-bottom: -10px;
-
-  width: 30px;
-  height: 30px;
-  
-  background-color: #eee;
-
-  border-radius: 100px;
-  border: 7px solid #e53b36;
+  text-shadow: 0px 2px 0 white;
 
   z-index: 1;
 }
 
-.checkpoint-title {
-  margin-left: 50px;
+.map-container {
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.add-checkpoint {
+  margin-top: 30px;
+}
 </style>
