@@ -1,8 +1,8 @@
 <template>
   <div class="map">
-    <h1>{{ name }}</h1>
+    <h1>{{ room.name }}</h1>
     <div class="map-container">
-      <div class="checkpoint-container" v-for="checkpoint in checkpoints"
+      <div class="checkpoint-container" v-for="checkpoint in room.checkpoints"
         v-bind:key="checkpoint.name">
         <div class="checkpoint-path"></div>
         <div class="checkpoint-icon">
@@ -14,28 +14,18 @@
 </template>
 
 <script>
+import { db } from '../main'
 export default {
   name: 'MapApp',
-  data: function() {
+  data () {
     return {
-      name: "Physics C",
-      checkpoints: [
-        {
-          name: "Read assignment",
-          members: ["Ignas"],
-        },
-        {
-          name: "Part 1",
-          members: ["Jonah"],
-        },
-        {
-          name: "Conclusion",
-          members: [],
-        },
-      ]
+      room: null
     }
   },
-  methods: {
+  firestore () {
+    return {
+      room: db.collection('rooms').doc('EuPzhKFzieeYna9UAWmc')
+    }
   }
 }
 </script>
