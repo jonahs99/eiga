@@ -6,6 +6,7 @@
         v-for="checkpoint in checkpoints"
         v-bind:key="checkpoint.name"
         v-bind:checkpoint="checkpoint"
+        v-on:update-title="changeCheckpoint"
       ></check-point>
 
       <div class="add-checkpoint" v-on:click="addCheckpoint">+</div>
@@ -46,6 +47,11 @@ export default {
         title: "",
         timestamp: firebase.firestore.Timestamp.fromDate(new Date(Date.now()))
       });
+    },
+    changeCheckpoint(id, title){
+      this.checkpointsCollection.doc(id).update({
+        title
+      })
     }
   }
 };
