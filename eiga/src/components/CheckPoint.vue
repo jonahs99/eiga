@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     onUpdateTitle(text) {
-      this.$emit("update-title", text)
+      this.$emit("update-title", this.checkpoint.id, text)
     }
   }
 }
