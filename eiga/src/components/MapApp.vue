@@ -6,6 +6,7 @@
         v-for="checkpoint in checkpoints"
         v-bind:key="checkpoint.id"
         v-bind:checkpoint="checkpoint"
+        :username="username"
         v-on:update-title="changeCheckpoint"
         v-on:delete="deleteCheckpoint"
         v-on:check="toggleCheckpoint"
@@ -61,10 +62,16 @@ export default {
     deleteCheckpoint(id) {
       this.checkpointsCollection.doc(id).delete();
     },
-    toggleCheckpoint(id) {
-      this.checkpointsCollection.doc(id).update({
-        members: firebase.firestore.FieldValue.arrayUnion(this.username)
-      })
+    toggleCheckpoint(id, add) {
+      if (add) {
+        this.checkpointsCollection.doc(id).update({
+          members: firebase.firestore.FieldValue.arrayUnion(this.username)
+        })
+      } else {
+        this.checkpointsCollection.doc(id).update({
+          members: firebase.firestore.FieldValue.arrayRemove(this.username)
+        })
+      }
     }
   }
 };

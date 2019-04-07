@@ -1,7 +1,7 @@
 <template>
     <div class="checkpoint-container">
       <div class="checkpoint-path"></div>
-      <div class="checkpoint-icon"
+      <div class="checkpoint-icon" v-bind:class="{ checked: checked }"
       v-on:click="onCheck">
           <label-edit class="checkpoint-title" :text="checkpoint.title" placeholder="enter a title"
             v-on:text-updated-enter="onUpdateTitle">
@@ -27,11 +27,6 @@ export default {
     LabelEdit
   },
   props: ["checkpoint", "username"],
-  data() {
-    return {
-      checked: false
-    }
-  },
   methods: {
     onUpdateTitle(text) {
       this.$emit("update-title", this.checkpoint.id, text)
@@ -40,7 +35,13 @@ export default {
       this.$emit("delete", this.checkpoint.id)
     },
     onCheck() {
-      this.$emit("check", this.checkpoint.id)
+      this.$emit("check", this.checkpoint.id, !this.checked)
+    }
+  },
+
+  computed: {
+    checked() {
+      return this.checkpoint.members.indexOf(this.username) > -1
     }
   }
 }
@@ -127,6 +128,10 @@ export default {
   margin-right: 20px;
   font-family: inherit;
   text-align: right;
-
 }
+
+.checked {
+  background: #BFF199;
+}
+
 </style>
