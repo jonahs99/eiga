@@ -37,15 +37,14 @@ export default {
   firestore() {
     return {
       room: this.roomDoc,
-      checkpoints: this.checkpointsCollection
+      checkpoints: this.checkpointsCollection.orderBy("timestamp")
     };
   },
   methods: {
     addCheckpoint() {
-      this.roomDoc.update({
-        checkpoints: firebase.firestore.FieldValue.arrayUnion({
-          title: ""
-        })
+      this.checkpointsCollection.add({
+        title: "",
+        timestamp: firebase.firestore.Timestamp.fromDate(new Date(Date.now()))
       });
     }
   }
