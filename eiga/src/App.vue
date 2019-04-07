@@ -1,16 +1,20 @@
 <template>
   <div id="app">
     <MapApp docId="EuPzhKFzieeYna9UAWmc"/>
+    <textarea-emoji-picker/>
+
   </div>
 </template>
 
 <script>
 import MapApp from './components/MapApp.vue'
+import TextareaEmojiPicker from './components/TextareaEmojiPicker.vue'
 
 export default {
   name: 'app',
   components: {
-    MapApp
+    MapApp,
+    TextareaEmojiPicker
   }
 }
 </script>

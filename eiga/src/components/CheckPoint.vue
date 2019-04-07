@@ -111,4 +111,14 @@ export default {
   line-height: 12px;
 }
 
+.vlabeledit-input{
+
+  height: 50px;
+  border-radius: 8px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-family: inherit;
+  text-align: right;
+
+}
 </style>

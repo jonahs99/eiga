@@ -72,7 +72,7 @@ export default {
   margin-left: 40px;
   margin-top: 40px;
 
-  text-shadow: 0px 2px 0 white;
+  text-shadow: -2px 1px 0 white;
 
   z-index: 1;
 }
