@@ -76,7 +76,7 @@ export default {
   overflow: hidden;
 }
 
-input{
+.vlabeledit-input{
 
   height: 50px;
   border-radius: 8px;
