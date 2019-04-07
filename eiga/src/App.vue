@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <MapApp docId="EuPzhKFzieeYna9UAWmc"/>
-    <textarea-emoji-picker/>
+    <div class="top-bar">
+      <input class="user-input" v-model="username">
+      <textarea-emoji-picker/>
+    </div>
+
+    <MapApp docId="EuPzhKFzieeYna9UAWmc" :username="username"/>
 
   </div>
 </template>
@@ -15,6 +19,9 @@ export default {
   components: {
     MapApp,
     TextareaEmojiPicker
+  },
+  data() {
+    return {username: "Ignas"}
   }
 }
 </script>

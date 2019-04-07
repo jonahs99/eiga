@@ -1,7 +1,8 @@
 <template>
     <div class="checkpoint-container">
       <div class="checkpoint-path"></div>
-      <div class="checkpoint-icon">
+      <div class="checkpoint-icon"
+      v-on:click="onCheck">
           <label-edit class="checkpoint-title" :text="checkpoint.title" placeholder="enter a title"
             v-on:text-updated-enter="onUpdateTitle">
           </label-edit>
@@ -25,7 +26,7 @@ export default {
   components: {
     LabelEdit
   },
-  props: ["checkpoint"],
+  props: ["checkpoint", "username"],
   data() {
     return {
       checked: false
@@ -37,6 +38,9 @@ export default {
     },
     onRemove() {
       this.$emit("delete", this.checkpoint.id)
+    },
+    onCheck() {
+      this.$emit("check", this.checkpoint.id)
     }
   }
 }
@@ -76,7 +80,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 
   position: relative;
 }
@@ -93,6 +97,10 @@ export default {
   position: absolute;
   left: 40px;
   top: 0;
+}
+
+.member-icon {
+  margin-right: 10px;
 }
 
 .remove-checkpoint {

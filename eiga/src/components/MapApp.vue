@@ -8,6 +8,7 @@
         v-bind:checkpoint="checkpoint"
         v-on:update-title="changeCheckpoint"
         v-on:delete="deleteCheckpoint"
+        v-on:check="toggleCheckpoint"
       ></check-point>
 
       <div class="add-checkpoint" v-on:click="addCheckpoint">+</div>
@@ -26,7 +27,7 @@ export default {
   components: {
     CheckPoint
   },
-  props: ["docId"],
+  props: ["docId", "username"],
   data() {
     return {
       room: null,
@@ -59,6 +60,11 @@ export default {
     },
     deleteCheckpoint(id) {
       this.checkpointsCollection.doc(id).delete();
+    },
+    toggleCheckpoint(id) {
+      this.checkpointsCollection.doc(id).update({
+        members: firebase.firestore.FieldValue.arrayUnion(this.username)
+      })
     }
   }
 };
