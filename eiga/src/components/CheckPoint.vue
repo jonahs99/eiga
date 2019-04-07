@@ -3,8 +3,16 @@
       <div class="checkpoint-path"></div>
       <div class="checkpoint-icon">
           <label-edit class="checkpoint-title" :text="checkpoint.title" placeholder="enter a title"
-          v-on:text-updated-enter="onUpdateTitle"
-          ></label-edit>
+            v-on:text-updated-enter="onUpdateTitle">
+          </label-edit>
+
+          <div class="member-list">
+            <span class="member-icon" v-for="member in checkpoint.members" v-bind:key="member">{{member}}</span>
+          </div>
+
+          <div class="remove-checkpoint"
+            v-on:click="onRemove"> -
+          </div>
       </div>
     </div>
 </template>
@@ -26,6 +34,9 @@ export default {
   methods: {
     onUpdateTitle(text) {
       this.$emit("update-title", this.checkpoint.id, text)
+    },
+    onRemove() {
+      this.$emit("delete", this.checkpoint.id)
     }
   }
 }
@@ -65,7 +76,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+
+  position: relative;
 }
 
 .checkpoint-title {
@@ -75,4 +88,27 @@ export default {
   white-space: nowrap;
   overflow: hidden;
 }
+
+.member-list {
+  position: absolute;
+  left: 40px;
+  top: 0;
+}
+
+.remove-checkpoint {
+  position: absolute;
+  left: 40px;
+  top: -20px;
+
+  background: #ddeef7;
+  border-radius: 50px;
+
+  width: 12px;
+  height: 12px;
+
+  color: white;
+  vertical-align: center;
+  line-height: 12px;
+}
+
 </style>

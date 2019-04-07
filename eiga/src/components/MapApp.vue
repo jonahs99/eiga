@@ -1,12 +1,13 @@
 <template>
   <div class="map">
-    <h1 class="title">{{ room.name }}</h1>
-    <div class="map-container">
+    <h1 class="title" v-if="room">{{ room.name }}</h1>
+    <div class="map-container" v-if="checkpoints">
       <check-point
         v-for="checkpoint in checkpoints"
-        v-bind:key="checkpoint.name"
+        v-bind:key="checkpoint.id"
         v-bind:checkpoint="checkpoint"
         v-on:update-title="changeCheckpoint"
+        v-on:delete="deleteCheckpoint"
       ></check-point>
 
       <div class="add-checkpoint" v-on:click="addCheckpoint">+</div>
@@ -32,8 +33,11 @@ export default {
       checkpoints: [],
 
       roomDoc: db.collection("rooms").doc(this.docId),
-      checkpointsCollection: db.collection("rooms").doc(this.docId).collection("checkpoints")
-    }
+      checkpointsCollection: db
+        .collection("rooms")
+        .doc(this.docId)
+        .collection("checkpoints")
+    };
   },
   firestore() {
     return {
@@ -48,10 +52,13 @@ export default {
         timestamp: firebase.firestore.Timestamp.fromDate(new Date(Date.now()))
       });
     },
-    changeCheckpoint(id, title){
+    changeCheckpoint(id, title) {
       this.checkpointsCollection.doc(id).update({
         title
-      })
+      });
+    },
+    deleteCheckpoint(id) {
+      this.checkpointsCollection.doc(id).delete();
     }
   }
 };
@@ -80,5 +87,16 @@ export default {
 
 .add-checkpoint {
   margin-top: 30px;
+  margin-bottom: 40px;
+
+  background: #1cb0f6;
+  border-radius: 50px;
+
+  width: 14px;
+  height: 14px;
+
+  color: white;
+  vertical-align: center;
+  line-height: 15px;
 }
 </style>
