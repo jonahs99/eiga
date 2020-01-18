@@ -41,7 +41,7 @@ export default {
 
   computed: {
     checked() {
-      return this.checkpoint.members.indexOf(this.username) > -1
+      return this.checkpoint.members && this.checkpoint.members.indexOf(this.username) > -1
     }
   }
 }
